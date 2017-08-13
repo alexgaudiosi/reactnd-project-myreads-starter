@@ -2,16 +2,10 @@ import React, { Component } from 'react';
 
 class ListBooks extends Component {
 
-  state = {
-    shelf: ''
-  }
-
   matchCategory = (category, book) => {
     category = category.replace(/\s/g, '');
     return book.shelf.match(new RegExp('^' + category + '$', 'i' ))
   }
-
-  update
 
   render() {
 
@@ -34,7 +28,7 @@ class ListBooks extends Component {
                           style={{ backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}
                         />
                         <div className="book-shelf-changer">
-                          <select onChange={(event) => onUpdateCategory(book, event.target.value)} value={this.state.shelf}>
+                          <select onChange={(event) => onUpdateCategory(book, event.target.value)} value={book.shelf}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
