@@ -21,6 +21,15 @@ class BooksApp extends React.Component {
     })
   }
 
+  updateCategory(book, shelf) {
+    console.log(book)
+    BooksAPI.update(book, shelf).then(book => {
+      this.setState(state => ({
+
+      }));
+    });
+  }
+
   render() {
     return (
       <div className="app">
@@ -48,7 +57,9 @@ class BooksApp extends React.Component {
         ) : (
           <ListBooks
             books={this.state.books}
-            trimCategory={this.trimCategory}
+            onUpdateCategory={(book, shelf) => {
+              this.updateCategory(book, shelf);
+            }}
           />
         )}
       </div>

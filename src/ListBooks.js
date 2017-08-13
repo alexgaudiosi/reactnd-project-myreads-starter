@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 
 class ListBooks extends Component {
 
-  trimCategory = (category, book) => {
+  state = {
+    shelf: ''
+  }
 
+  matchCategory = (category, book) => {
     category = category.replace(/\s/g, '');
-
     return book.shelf.match(new RegExp('^' + category + '$', 'i' ))
   }
 
+  update
+
   render() {
 
-    const { books } = this.props;
+    const { books, onUpdateCategory } = this.props;
     const categories = ['Currently Reading', 'Want to Read', 'Read'];
 
     return (
@@ -21,7 +25,7 @@ class ListBooks extends Component {
             <h2 className="bookshelf-title">{category}</h2>
             <div className="bookshelf-books">
               <ol className="books-grid">
-                { books.filter((book) => this.trimCategory(category, book) ).map((book) => (
+                { books.filter((book) => this.matchCategory(category, book) ).map((book) => (
                   <li key={Object.values(book.industryIdentifiers[0].identifier).join('')}>
                     <div className="book">
                       <div className="book-top">
@@ -30,7 +34,7 @@ class ListBooks extends Component {
                           style={{ backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}
                         />
                         <div className="book-shelf-changer">
-                          <select>
+                          <select onChange={(event) => onUpdateCategory(book, event.target.value)} value={this.state.shelf}>
                             <option value="none" disabled>Move to...</option>
                             <option value="currentlyReading">Currently Reading</option>
                             <option value="wantToRead">Want to Read</option>
