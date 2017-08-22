@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Book from './Book';
 import { Link } from 'react-router-dom';
 
 class ListBooks extends Component {
@@ -8,9 +9,20 @@ class ListBooks extends Component {
     return book.shelf.match(new RegExp('^' + category + '$', 'i' ))
   }
 
+  renderChildren = (props) => {
+    return React.Children.map(props.children, child => {
+      if (child.type === Book)
+        return React.cloneElement(child, {
+          name: props.name
+        })
+      else
+        return child
+    })
+  }
+
   render() {
 
-    const { books, onUpdateCategory } = this.props;
+    const { books } = this.props;
     const categories = ['Currently Reading', 'Want to Read', 'Read'];
 
     return (
@@ -21,27 +33,13 @@ class ListBooks extends Component {
             <div className="bookshelf-books">
               <ol className="books-grid">
                 { books.filter((book) => this.matchCategory(category, book) ).map((book) => (
-                  <li key={Object.values(book.industryIdentifiers[0].identifier).join('')}>
-                    <div className="book">
-                      <div className="book-top">
-                        <div
-                          className="book-cover"
-                          style={{ backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}
-                        />
-                        <div className="book-shelf-changer">
-                          <select onChange={(event) => onUpdateCategory(book, event.target.value)} value={book.shelf}>
-                            <option value="none" disabled>Move to...</option>
-                            <option value="currentlyReading">Currently Reading</option>
-                            <option value="wantToRead">Want to Read</option>
-                            <option value="read">Read</option>
-                            <option value="none">None</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="book-title">{book.title}</div>
-                      <div className="book-authors">{book.authors}</div>
-                    </div>
-                  </li>
+                  <Book
+                    book={book}
+                    key={Object.values(book.industryIdentifiers[0].identifier).join('')}
+                    onUpdateCategory={(book, shelf) => {
+                      this.updateCategory(book, shelf);
+                    }}
+                  />
                 ))}
               </ol>
             </div>

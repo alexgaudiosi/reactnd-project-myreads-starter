@@ -16,12 +16,7 @@ class BooksApp extends React.Component {
     })
   }
 
-  updateCategory(book, shelf) {
-    BooksAPI.update(book, shelf).then((data) => {
-      book.shelf = shelf;
-      this.setState({ data });
-    });
-  }
+
 
   render() {
     return (
@@ -37,7 +32,6 @@ class BooksApp extends React.Component {
          <Route path="/search" render={({ history }) => (
            <SearchBooks
             books={this.state.books}
-
           />
         )}/>
       </div>
