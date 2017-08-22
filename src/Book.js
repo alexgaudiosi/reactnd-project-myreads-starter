@@ -4,6 +4,7 @@ import React, { Component } from 'react';
     render() {
 
       const { book } = this.props;
+
       return (
         <li>
           <div className="book">
@@ -13,7 +14,7 @@ import React, { Component } from 'react';
                 style={{ backgroundImage: `url(${book.imageLinks.smallThumbnail})`}}
               />
               <div className="book-shelf-changer">
-                 <select onChange={(event) => this.props.onUpdateCategory(book, event.target.value)} value={book.shelf || 'none'}>
+                 <select onChange={(event) => this.props.onUpdateCategory(book, event.target.value)} value={this.props.shelf}>
                   <option value="none" disabled>Move to...</option>
                   <option value="currentlyReading">Currently Reading</option>
                   <option value="wantToRead">Want to Read</option>
@@ -24,12 +25,10 @@ import React, { Component } from 'react';
             </div>
             <div className="book-title">{book.title}</div>
             <div className="book-authors">{book.authors}</div>
-            {book.shelf}
           </div>
         </li>
       )
     }
   }
-
 
 export default Book;

@@ -7,7 +7,9 @@ class SearchBooks extends Component {
 
   state = {
     search: '',
-    results: []
+    results: [],
+    books: [],
+    shelf: ''
   }
 
   updateSearch = (search) => {
@@ -20,13 +22,25 @@ class SearchBooks extends Component {
       });
   }
 
+  updateCategory(book, shelf) {
+    BooksAPI.update(book, shelf).then((data) => {
+      book.shelf = shelf;
+      this.setState({ data });
+    });
+  }
+
+  getShelf = (book) => {
+    var x = this.props.books.filter((result) => result.id === book.id)
+    if ( x.length > 0 ) {
+      return x[0].shelf;
+    } else {
+      return 'none'
+    }
+  }
+
   render() {
     const { props } = this.props;
-
-    if (this.state.results) {
-      console.log(this.state.results)
-      console.log(this.state.books)
-    }
+    let results = this.state.results;
 
     return (
       <div className="wrapper">
@@ -45,9 +59,10 @@ class SearchBooks extends Component {
         </div>
          <div className="search-books-results">
           <ol className="books-grid">
-            { this.state.results.map((book) => (
+            { results.map((book) => (
               <Book
                 book={book}
+                shelf={this.getShelf(book)}
                 key={Object.values(book.industryIdentifiers[0].identifier).join('')}
                 onUpdateCategory={(book, shelf) => {
                   this.updateCategory(book, shelf);

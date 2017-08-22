@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Book from './Book';
 import { Link } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI';
 
 class ListBooks extends Component {
 
@@ -9,15 +10,11 @@ class ListBooks extends Component {
     return book.shelf.match(new RegExp('^' + category + '$', 'i' ))
   }
 
-  renderChildren = (props) => {
-    return React.Children.map(props.children, child => {
-      if (child.type === Book)
-        return React.cloneElement(child, {
-          name: props.name
-        })
-      else
-        return child
-    })
+  updateCategory(book, shelf) {
+    BooksAPI.update(book, shelf).then((data) => {
+      book.shelf = shelf;
+      this.setState({ data });
+    });
   }
 
   render() {
