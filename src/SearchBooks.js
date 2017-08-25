@@ -7,9 +7,7 @@ class SearchBooks extends Component {
 
   state = {
     search: '',
-    results: [],
-    books: [],
-    shelf: ''
+    results: []
   }
 
   updateSearch = (search) => {
@@ -25,14 +23,14 @@ class SearchBooks extends Component {
   updateCategory(book, shelf) {
     BooksAPI.update(book, shelf).then((data) => {
       book.shelf = shelf;
-      this.setState({ data });
+      this.setState({ books: data });
     });
   }
 
   getShelf = (book) => {
-    var x = this.props.books.filter((result) => result.id === book.id)
-    if ( x.length > 0 ) {
-      return x[0].shelf;
+    const currentShelf = this.props.books.filter((result) => result.id === book.id)
+    if ( currentShelf.length > 0 ) {
+      return currentShelf[0].shelf;
     } else {
       return 'none'
     }

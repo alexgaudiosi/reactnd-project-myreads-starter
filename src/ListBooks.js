@@ -32,6 +32,7 @@ class ListBooks extends Component {
                 { books.filter((book) => this.matchCategory(category, book) ).map((book) => (
                   <Book
                     book={book}
+                    shelf={book.shelf}
                     key={Object.values(book.industryIdentifiers[0].identifier).join('')}
                     onUpdateCategory={(book, shelf) => {
                       this.updateCategory(book, shelf);
