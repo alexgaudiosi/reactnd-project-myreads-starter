@@ -21,10 +21,7 @@ class SearchBooks extends Component {
   }
 
   updateCategory(book, shelf) {
-    BooksAPI.update(book, shelf).then((data) => {
-      book.shelf = shelf;
-      this.setState({ books: data });
-    });
+    this.props.onUpdateCategory(book, shelf);
   }
 
   getShelf = (book) => {

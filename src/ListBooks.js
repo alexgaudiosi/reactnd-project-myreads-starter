@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Book from './Book';
 import { Link } from 'react-router-dom';
-import * as BooksAPI from './BooksAPI';
 
 class ListBooks extends Component {
 
@@ -11,10 +10,7 @@ class ListBooks extends Component {
   }
 
   updateCategory(book, shelf) {
-    BooksAPI.update(book, shelf).then((data) => {
-      book.shelf = shelf;
-      this.setState({ data });
-    });
+    this.props.onUpdateCategory(book, shelf);
   }
 
   render() {
