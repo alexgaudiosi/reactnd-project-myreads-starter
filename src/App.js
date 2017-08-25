@@ -16,6 +16,10 @@ class BooksApp extends React.Component {
     })
   }
 
+  // This doesn't feel quite right, in order to get the library to update after adding a new book I had to call .getAll()
+  // (not necessary for changing shelves), what would be a cleaner way here? Would you have to take the newly added book
+  // object and append to books state? (filling in any gaps with in the object)
+
   updateCategory = (book, shelf) => {
     BooksAPI.update(book, shelf).then((data) => {
       book.shelf = shelf;
@@ -24,6 +28,8 @@ class BooksApp extends React.Component {
       })
     });
   }
+
+  //  Repetition here to pass state down the tree to child components, I'm guessing redux helps with that?
 
   render() {
     return (
@@ -49,4 +55,4 @@ class BooksApp extends React.Component {
   }
 }
 
-export default BooksApp
+export default BooksApp;
